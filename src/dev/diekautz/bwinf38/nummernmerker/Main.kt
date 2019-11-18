@@ -1,8 +1,11 @@
 package dev.diekautz.bwinf38.nummernmerker
 
+import java.io.File
+
 fun main() {
-    val simple = splitNumber("023700512053")
-    println(simple)
+    File("src/dev/diekautz/bwinf38/nummernmerker/nummern.txt").forEachLine {
+        println(splitNumber(it))
+    }
 }
 
 fun splitNumber(num: String): SplitSolution {
@@ -37,6 +40,10 @@ class SplitSolution(val num: Array<String>) {
             }
         }
         return count
+    }
+
+    override fun toString(): String {
+        return num.joinToString(" ")
     }
 
     fun prepend(string: String): SplitSolution {
