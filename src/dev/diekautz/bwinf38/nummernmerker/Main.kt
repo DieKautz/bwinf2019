@@ -3,12 +3,12 @@ package dev.diekautz.bwinf38.nummernmerker
 import java.io.File
 
 fun main() {
-    File("src/dev/diekautz/bwinf38/nummernmerker/nummern.txt").forEachLine {
+    File("src/dev/diekautz/bwinf38/nummernmerker/nummern.txt").forEachLine { //einlesen der nummern
         println(splitNumber(it))
     }
 }
 
-fun splitNumber(num: String): SplitSolution {
+fun splitNumber(num: String): SplitSolution {                    //aufteilen der nummern in blöcke
     if(num.length <= 4){
         return SplitSolution(arrayOf(num))
     } else {
@@ -31,7 +31,7 @@ fun splitNumber(num: String): SplitSolution {
     }
 }
 
-class SplitSolution(val num: Array<String>) {
+class SplitSolution(val num: Array<String>) {              //prüfen das möglichst wenig 0 am anfang stehen
     fun getLeadingZeros(): Int {
         var count = 0
         num.forEach {
