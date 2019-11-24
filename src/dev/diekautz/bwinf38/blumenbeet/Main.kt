@@ -8,7 +8,7 @@ fun main() {
 //        checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen$i.txt")
 //        println("==============================================")
 //    }
-    checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen1.txt")
+    checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen5.txt")
 }
 
 fun checkBestForFile(path: String){
@@ -28,11 +28,16 @@ fun checkBestForFile(path: String){
         needColors.add(color1)
         needColors.add(color2)
     }
+    println("Farben Anzahl: $needColors\nWünsche: $wishes")
     if(maxColors < needColors.size){
-        println("\u001B[1;31mFEHLER: Die Anzahl der verschiedenen Farben ist kleiner als die der Lieblingsfarben.")
+        println("\u001B[0;31mFEHLER: Die Anzahl der verschiedenen Farben ist kleiner als die der Lieblingsfarben.")
         return
     }
-    println(generateHochbeet(Hochbeet(), maxColors, needColors, wishes))
+    val bestBeet = generateHochbeet(Hochbeet(), maxColors, needColors, wishes)
+    println("--------\n" +
+            "Bester Score: ${bestBeet.getScore(wishes)}\n" +
+            "Beet:\n$bestBeet"
+    )
 }
 
 fun generateHochbeet(beet: Hochbeet, maxColors: Int, needColors: MutableSet<Color>, wishes: MutableSet<Wish>): Hochbeet {
@@ -88,11 +93,11 @@ class Hochbeet(default: ArrayList<Color>) {
     }
 
     override fun toString(): String {
-        return "\t\t${flowers[0]}\n" +
-                "\t${flowers[1]} ${flowers[2]}\n" +
-                "${flowers[3]} ${flowers[4]} ${flowers[5]}\n" +
-                "\t${flowers[6]} ${flowers[7]}\n" +
-                "\t\t${flowers[8]}\n"
+        return "\t\t${flowers[0].nice()}\n" +
+                "\t${flowers[1].nice()} ${flowers[2].nice()}\n" +
+                "${flowers[3].nice()} ${flowers[4].nice()} ${flowers[5].nice()}\n" +
+                "\t${flowers[6].nice()} ${flowers[7].nice()}\n" +
+                "\t\t${flowers[8].nice()}\n"
     }
 
     companion object {
@@ -111,6 +116,10 @@ enum class Color {
     ROSA,
     ROT,
     TUERKIS;
+
+    fun nice(): String {
+        return super.toString().padStart(7)
+    }
 }
 
 class Wish(val first: Color, val second: Color, val value: Int){
