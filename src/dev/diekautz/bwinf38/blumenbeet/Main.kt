@@ -3,12 +3,15 @@ package dev.diekautz.bwinf38.blumenbeet
 import java.io.File
 import java.lang.Integer.max
 
-fun main() {
-//    for(i in 1..5){
-//        checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen$i.txt")
-//        println("==============================================")
-//    }
-    checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen5.txt")
+fun main(args: Array<String>) {
+    if (args.isEmpty()) {
+        for(i in 1..5){
+            checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen$i.txt")
+            println("==============================================")
+        }
+    } else {
+        checkBestForFile(args[0])
+    }
 }
 
 fun checkBestForFile(path: String){
@@ -28,11 +31,16 @@ fun checkBestForFile(path: String){
         needColors.add(color1)
         needColors.add(color2)
     }
-    println("Farben Anzahl: $needColors\nWünsche: $wishes")
     if(maxColors < needColors.size){
-        println("\u001B[0;31mFEHLER: Die Anzahl der verschiedenen Farben ist kleiner als die der Lieblingsfarben.")
-        return
+        needColors.clear()
+        for(wish in wishes.sortedByDescending { it.value }){
+            if(needColors.size >= maxColors) break
+            needColors.add(wish.first)
+            if(needColors.size >= maxColors) break
+            needColors.add(wish.second)
+        }
     }
+    println("Farben Anzahl: $needColors\nWünsche: $wishes")
     val bestBeet = generateHochbeet(Hochbeet(), maxColors, needColors, wishes)
     println("--------\n" +
             "Bester Score: ${bestBeet.getScore(wishes)}\n" +
