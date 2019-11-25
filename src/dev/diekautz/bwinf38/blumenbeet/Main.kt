@@ -5,15 +5,15 @@ import java.lang.Integer.max
 
 fun main(args: Array<String>) {
     //Wenn ein Argument vorhand -> als Pfad für Datei nutzen
-//    if (args.isEmpty()) {
-//        for(i in 1..5){
-//            checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen$i.txt")
-//            println("==============================================")
-//        }
-//    } else {
-//        checkBestForFile(args[0])
-//    }
-    checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen1.txt")
+    if (args.isEmpty()) {
+        for(i in 1..5){
+            checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen$i.txt")
+            println("==============================================")
+        }
+    } else {
+        checkBestForFile(args[0])
+    }
+//    checkBestForFile("src/dev/diekautz/bwinf38/blumenbeet/blumen1.txt")
 }
 
 /**

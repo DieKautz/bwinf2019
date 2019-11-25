@@ -1,24 +1,25 @@
-
-
 package dev.diekautz.bwinf38.nummernmerker
- 
+
 import java.io.File
- 
-fun main() {
-    File("src/dev/diekautz/bwinf38/nummernmerker/nummern.txt").forEachLine { //einlesen der nummern
-        println(splitNumber(it)) //Für jede Zeile(Nummer) Lösung eingeben
+
+fun main(args: Array<String>) {
+    if (args.isEmpty()) {
+
+        File("src/dev/diekautz/bwinf38/nummernmerker/nummern.txt").forEachLine { //einlesen der nummern
+            println(splitNumber(it))
+        }
+    } else {
+        println(splitNumber(args[0]))
     }
 }
- 
-fun splitNumber(num: String): SplitSolution {
-    if(num.length <= 4){ //Wenn ein Block kleiner als 4 ist kann er nicht zerlegt werden (bei 4 macht es keinen Sinn)
+
+fun splitNumber(num: String): SplitSolution {                    //aufteilen der nummern in blöcke
+    if(num.length <= 4){
         return SplitSolution(arrayOf(num))
     } else {
-        val len2 = splitNumber(num.substring(2, num.lastIndex)) //testen mit einem zweierblock
-        val len3 = splitNumber(num.substring(3, num.lastIndex)) //testen mit einem dreierblock
-        val len4 = splitNumber(num.substring(4, num.lastIndex)) //testen mit einem viererblock
- 
-		//vergleichen bei welcher Aufteilung am kleinsten und dann mit dieser weiter arbeiten
+        val len2 = splitNumber(num.substring(2, num.lastIndex))
+        val len3 = splitNumber(num.substring(3, num.lastIndex))
+        val len4 = splitNumber(num.substring(4, num.lastIndex))
         if(len2.getLeadingZeros() < len3.getLeadingZeros()){
             if (len2.getLeadingZeros() < len4.getLeadingZeros()){
                 return len2.prepend(num.substring(0, 2))
@@ -34,11 +35,10 @@ fun splitNumber(num: String): SplitSolution {
         }
     }
 }
- 
-class SplitSolution(val num: Array<String>) {
+
+class SplitSolution(val num: Array<String>) {              //prüfen das möglichst wenig 0 am anfang stehen
     fun getLeadingZeros(): Int {
         var count = 0
-		//Für jeden Block der mit "0" beginnt wird die Anzahl um 1 erhöht
         num.forEach {
             if(it.startsWith("0")){
                 count++
@@ -46,16 +46,16 @@ class SplitSolution(val num: Array<String>) {
         }
         return count
     }
- 
+
     override fun toString(): String {
         return num.joinToString(" ")
     }
- 
-    fun prepend(string: String): SplitSolution { //Hilfsfunktion zum Anfügen von zeichen am Anfang
+
+    fun prepend(string: String): SplitSolution {
         return SplitSolution(arrayOf(string) + num)
     }
- 
-    operator fun plus(other: SplitSolution): SplitSolution { //Hilfsfunktion um zwei Aufteilungen zusammen zu setzten
+
+    operator fun plus(other: SplitSolution): SplitSolution {
         return SplitSolution(num + other.num)
     }
 }
